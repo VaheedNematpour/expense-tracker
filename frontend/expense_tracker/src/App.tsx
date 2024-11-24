@@ -1,5 +1,6 @@
 import { useState } from "react";
 import NavBar from "./components/NavBar";
+import ExpenseList from "./components/ExpenseTracker/ExpenseList";
 
 function App() {
   const [dark, setDark] = useState(false);
@@ -10,7 +11,9 @@ function App() {
         <NavBar isDark={dark} handleDark={() => setDark(!dark)} />
       </header>
 
-      <main></main>
+      <main className="px-6 py-8">
+        <ExpenseList isDark={dark} />
+      </main>
     </div>
   );
 }

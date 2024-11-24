@@ -27,7 +27,7 @@ function ExpenseList({ isDark }: Props) {
               scope="row"
               className={`px-6 py-3 text-lg ${
                 isDark ? "text-gray-300" : "text-gray-800"
-              } font-medium xl:text-xl`}
+              } font-bold xl:text-xl`}
             >
               Title
             </th>
@@ -35,7 +35,7 @@ function ExpenseList({ isDark }: Props) {
               scope="row"
               className={`px-6 py-3 text-lg ${
                 isDark ? "text-gray-300" : "text-gray-800"
-              } font-medium xl:text-xl`}
+              } font-bold xl:text-xl`}
             >
               Category
             </th>
@@ -43,7 +43,7 @@ function ExpenseList({ isDark }: Props) {
               scope="row"
               className={`px-6 py-3 text-lg ${
                 isDark ? "text-gray-300" : "text-gray-800"
-              } font-medium xl:text-xl`}
+              } font-bold xl:text-xl`}
             >
               Amount
             </th>
@@ -51,7 +51,7 @@ function ExpenseList({ isDark }: Props) {
               scope="row"
               className={`px-6 py-3 text-lg ${
                 isDark ? "text-gray-300" : "text-gray-800"
-              } font-medium xl:text-xl`}
+              } font-bold xl:text-xl`}
             ></th>
           </tr>
         </thead>
@@ -59,12 +59,34 @@ function ExpenseList({ isDark }: Props) {
           {data &&
             data.map((expense) => (
               <tr key={expense.id}>
-                <td scope="col" className={`px-6 py-4`}>
+                <td
+                  scope="col"
+                  className={`px-6 py-4 text-lg ${
+                    isDark ? "text-gray-300" : "text-gray-800"
+                  } font-medium xl:text-xl`}
+                >
                   {expense.title}
                 </td>
-                <td scope="col" className={`px-6 py-4`}></td>
-                <td scope="col" className={`px-6 py-4`}></td>
-                <td scope="col" className={`px-6 py-4`}></td>
+                <td
+                  scope="col"
+                  className={`px-6 py-4 text-lg ${
+                    isDark ? "text-gray-300" : "text-gray-800"
+                  } font-medium xl:text-xl`}
+                ></td>
+                <td
+                  scope="col"
+                  className={`px-6 py-4 text-lg ${
+                    isDark ? "text-gray-300" : "text-gray-800"
+                  } font-medium xl:text-xl`}
+                ></td>
+                <td
+                  scope="col"
+                  className={`px-6 py-4 text-lg ${
+                    isDark ? "text-gray-300" : "text-gray-800"
+                  } font-medium xl:text-xl`}
+                >
+                  <button className="hover:text-red-400">Delete</button>
+                </td>
               </tr>
             ))}
         </tbody>

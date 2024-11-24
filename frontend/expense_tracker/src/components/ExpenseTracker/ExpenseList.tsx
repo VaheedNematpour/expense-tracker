@@ -1,4 +1,5 @@
 import useExpense from "../hooks/useExpense";
+import CategoryTitle from "./CategoryTitle";
 
 interface Props {
   isDark: boolean;
@@ -72,13 +73,17 @@ function ExpenseList({ isDark }: Props) {
                   className={`px-6 py-4 text-lg ${
                     isDark ? "text-gray-300" : "text-gray-800"
                   } font-medium xl:text-xl`}
-                ></td>
+                >
+                  <CategoryTitle category={expense.category} />
+                </td>
                 <td
                   scope="col"
                   className={`px-6 py-4 text-lg ${
                     isDark ? "text-gray-300" : "text-gray-800"
                   } font-medium xl:text-xl`}
-                ></td>
+                >
+                  {expense.amount}
+                </td>
                 <td
                   scope="col"
                   className={`px-6 py-4 text-lg ${

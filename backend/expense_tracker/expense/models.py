@@ -10,7 +10,7 @@ class Category(models.Model):
 
 class Expense(models.Model):
     title = models.CharField(max_length=255)
-    description = models.TextField(blank=True, null=True)
+    amount = models.DecimalField(max_digits=6, decimal_places=2)
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
 
     def __str__(self) -> str:

@@ -1,21 +1,14 @@
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-
-interface Expense {
-  id: number;
-  title: string;
-}
+import useExpense from "../hooks/useExpense";
 
 interface Props {
   isDark: boolean;
 }
 
 function ExpenseList({ isDark }: Props) {
-  const { data } = useQuery<Expense[]>({
-    queryKey: ["expenses"],
-    queryFn: () =>
-      axios.get("http://localhost:8000/expenses/").then((res) => res.data),
-  });
+  const { data, error } = useExpense();
+
+  if (error)
+    return <p className="text-lg text-red-400 xl:text-xl">{error.message}</p>;
 
   return (
     <>

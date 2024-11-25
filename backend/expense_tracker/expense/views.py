@@ -5,12 +5,18 @@ from rest_framework.response import Response
 from .models import Category, Expense
 from .serializers import CategorySerializer, ExpenseSerializer
 
-@api_view()
+@api_view(['GET', 'POST'])
 def category_list(request):
-    categories = Category.objects.all()
-    serializer = CategorySerializer(categories, many=True)
+    if request.method == 'GET':
+        categories = Category.objects.all()
+        serializer = CategorySerializer(categories, many=True)
 
-    return Response(serializer.data)
+        return Response(serializer.data)
+    elif request.method == 'POST':
+        serializer = CategorySerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 @api_view(['GET', 'DELETE'])

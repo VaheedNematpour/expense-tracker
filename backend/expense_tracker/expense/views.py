@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import Category, Expense
@@ -12,12 +13,16 @@ def category_list(request):
     return Response(serializer.data)
 
 
-@api_view()
+@api_view(['GET', 'DELETE'])
 def category_detail(request, id):
     category = get_object_or_404(Category, pk=id)
-    serializer = CategorySerializer(category)
+    if request.method == 'GET':
+        serializer = CategorySerializer(category)
 
-    return Response(serializer.data)
+        return Response(serializer.data)
+    elif request.method == 'DELETE':
+        category.delete()
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
 
 @api_view()

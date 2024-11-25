@@ -49,9 +49,14 @@ def expense_list(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-@api_view()
+@api_view(['GET', 'DELETE'])
 def epxense_detail(request, id):
     expense = get_object_or_404(Expense, pk=id)
-    serializer = ExpenseSerializer(expense)
+    if request.method == 'GET':
+        serializer = ExpenseSerializer(expense)
 
-    return Response(serializer.data)
+        return Response(serializer.data)
+    elif request.method == 'DELETE':
+        expense.delete()
+
+        return Response(status=status.HTTP_204_NO_CONTENT)

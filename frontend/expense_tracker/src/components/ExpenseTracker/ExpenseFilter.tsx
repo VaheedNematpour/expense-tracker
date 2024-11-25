@@ -1,14 +1,15 @@
 import { useState } from "react";
-import useCategory from "../hooks/useCategory";
+import { Category } from "../hooks/useCategory";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 
 interface Props {
   isDark: boolean;
+  category: Category[];
 }
 
-function ExpenseFilter({ isDark }: Props) {
-  const { data } = useCategory();
+function ExpenseFilter({ isDark, category }: Props) {
   const [expaded, setExpanded] = useState(false);
+  const [categoryTitle, setCategoryTitle] = useState("All Categories");
 
   return (
     <>
@@ -32,7 +33,7 @@ function ExpenseFilter({ isDark }: Props) {
               isDark ? "text-gray-300" : "text-gray-800"
             } xl:text-xl`}
           >
-            All Categories
+            {categoryTitle}
           </p>
 
           <button className={`${isDark ? "text-gray-300" : "text-gray-800"}`}>
@@ -42,18 +43,27 @@ function ExpenseFilter({ isDark }: Props) {
 
         {expaded && (
           <ul className="my-1 border-2 border-gray-300 rounded">
-            <li className="py-4 hover:bg-gray-300"></li>
-            {data &&
-              data.map((category) => (
-                <li
-                  className={`px-6 py-2 text-xl ${
-                    isDark ? "text-gray-300" : "text-gray-800"
-                  } font-medium my-4 hover:bg-gray-400`}
-                  key={category.id}
-                >
-                  {category.title}
-                </li>
-              ))}
+            <li
+              className="py-4 hover:bg-gray-300"
+              onClick={() => {
+                setCategoryTitle("All Categories");
+                setExpanded(false);
+              }}
+            ></li>
+            {category.map((category) => (
+              <li
+                className={`px-6 py-2 text-xl ${
+                  isDark ? "text-gray-300" : "text-gray-800"
+                } font-medium my-4 hover:bg-gray-400`}
+                onClick={() => {
+                  setCategoryTitle(category.title);
+                  setExpanded(false);
+                }}
+                key={category.id}
+              >
+                {category.title}
+              </li>
+            ))}
           </ul>
         )}
       </div>

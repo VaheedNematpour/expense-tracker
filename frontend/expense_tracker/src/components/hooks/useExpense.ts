@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Category } from "./useCategory";
 
-interface Expense {
+export interface Expense {
   id: number;
   title: string;
   category: Category;

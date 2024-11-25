@@ -1,16 +1,12 @@
-import useExpense from "../hooks/useExpense";
+import { Expense } from "../hooks/useExpense";
 import CategoryTitle from "./CategoryTitle";
 
 interface Props {
   isDark: boolean;
+  expenses: Expense[];
 }
 
-function ExpenseList({ isDark }: Props) {
-  const { data, error } = useExpense();
-
-  if (error)
-    return <p className="text-lg text-red-400 xl:text-xl">{error.message}</p>;
-
+function ExpenseList({ isDark, expenses }: Props) {
   return (
     <>
       <h2
@@ -57,43 +53,42 @@ function ExpenseList({ isDark }: Props) {
           </tr>
         </thead>
         <tbody>
-          {data &&
-            data.map((expense) => (
-              <tr key={expense.id}>
-                <td
-                  scope="col"
-                  className={`px-6 py-4 text-lg ${
-                    isDark ? "text-gray-300" : "text-gray-800"
-                  } font-medium xl:text-xl`}
-                >
-                  {expense.title}
-                </td>
-                <td
-                  scope="col"
-                  className={`px-6 py-4 text-lg ${
-                    isDark ? "text-gray-300" : "text-gray-800"
-                  } font-medium xl:text-xl`}
-                >
-                  <CategoryTitle category={expense.category} />
-                </td>
-                <td
-                  scope="col"
-                  className={`px-6 py-4 text-lg ${
-                    isDark ? "text-gray-300" : "text-gray-800"
-                  } font-medium xl:text-xl`}
-                >
-                  {expense.amount}
-                </td>
-                <td
-                  scope="col"
-                  className={`px-6 py-4 text-lg ${
-                    isDark ? "text-gray-300" : "text-gray-800"
-                  } font-medium xl:text-xl`}
-                >
-                  <button className="hover:text-red-400">Delete</button>
-                </td>
-              </tr>
-            ))}
+          {expenses.map((expense) => (
+            <tr key={expense.id}>
+              <td
+                scope="col"
+                className={`px-6 py-4 text-lg ${
+                  isDark ? "text-gray-300" : "text-gray-800"
+                } font-medium xl:text-xl`}
+              >
+                {expense.title}
+              </td>
+              <td
+                scope="col"
+                className={`px-6 py-4 text-lg ${
+                  isDark ? "text-gray-300" : "text-gray-800"
+                } font-medium xl:text-xl`}
+              >
+                <CategoryTitle category={expense.category} />
+              </td>
+              <td
+                scope="col"
+                className={`px-6 py-4 text-lg ${
+                  isDark ? "text-gray-300" : "text-gray-800"
+                } font-medium xl:text-xl`}
+              >
+                {expense.amount}
+              </td>
+              <td
+                scope="col"
+                className={`px-6 py-4 text-lg ${
+                  isDark ? "text-gray-300" : "text-gray-800"
+                } font-medium xl:text-xl`}
+              >
+                <button className="hover:text-red-400">Delete</button>
+              </td>
+            </tr>
+          ))}
         </tbody>
         <tfoot></tfoot>
       </table>

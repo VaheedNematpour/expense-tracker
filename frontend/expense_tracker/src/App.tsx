@@ -3,11 +3,16 @@ import NavBar from "./components/NavBar";
 import ExpenseList from "./components/ExpenseTracker/ExpenseList";
 import ExpenseFilter from "./components/ExpenseTracker/ExpenseFilter";
 import useCategory from "./components/hooks/useCategory";
+import useExpense from "./components/hooks/useExpense";
 
 function App() {
   const [dark, setDark] = useState(false);
 
   const { data } = useCategory();
+  const { data: expenses, error } = useExpense();
+
+  if (error)
+    return <p className="text-lg text-red-400 xl:text-xl">{error.message}</p>;
 
   return (
     <div className={`h-screen ${dark ? "bg-gray-800" : "bg-gray-100"}`}>
@@ -17,7 +22,7 @@ function App() {
 
       <main className="px-6 py-8">
         <ExpenseFilter isDark={dark} category={data ? data : []} />
-        <ExpenseList isDark={dark} />
+        <ExpenseList isDark={dark} expenses={expenses ? expenses : []} />
       </main>
     </div>
   );

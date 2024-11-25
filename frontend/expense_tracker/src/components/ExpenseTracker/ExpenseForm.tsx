@@ -1,10 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { Expense } from "../hooks/useExpense";
+import axios from "axios";
 
 const schema = z.object({
   title: z.string().min(3),
-  description: z.string().min(3),
   category: z
     .number({ invalid_type_error: "The Category field is required!" })
     .min(1),
@@ -21,6 +23,22 @@ interface Props {
 }
 
 function ExpenseForm({ isDark }: Props) {
+  const queryClient = useQueryClient();
+
+  const addExpense = useMutation({
+    mutationFn: (expense: Expense) =>
+      axios
+        .post("http://localhost:8000/expenses/", expense)
+        .then((res) => res.data),
+
+    onSuccess: (savedExpense, newExpense) => {
+      queryClient.setQueryData<Expense[]>(["expenses"], (expenses) => [
+        savedExpense,
+        ...(expenses || []),
+      ]);
+    },
+  });
+
   const {
     register,
     handleSubmit,
@@ -40,7 +58,11 @@ function ExpenseForm({ isDark }: Props) {
       <form
         className="space-y-3"
         onSubmit={handleSubmit((data) => {
-          console.log(data);
+          addExpense.mutate({
+            title: data.title,
+            category: data.category,
+            amount: data.amount,
+          });
         })}
       >
         <div className="space-y-1">
@@ -62,27 +84,6 @@ function ExpenseForm({ isDark }: Props) {
           {errors.title && (
             <p className="text-lg text-red-400 xl:text-xl">
               {errors.title.message}
-            </p>
-          )}
-        </div>
-
-        <div className="space-y-1">
-          <label
-            htmlFor="description"
-            className={`text-lg ${
-              isDark ? "text-gray-300" : "text-gray-800"
-            } font-medium xl:text-xl`}
-          >
-            Description
-          </label>
-          <textarea
-            {...register("description")}
-            placeholder="description"
-            className={`block w-full bg-gray-300 px-6 py-2 text-lg rounded xl:text-xl`}
-          ></textarea>
-          {errors.description && (
-            <p className="text-lg text-red-400 xl:text-xl">
-              {errors.description.message}
             </p>
           )}
         </div>

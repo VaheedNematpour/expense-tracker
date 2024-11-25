@@ -4,6 +4,7 @@ import ExpenseList from "./components/ExpenseTracker/ExpenseList";
 import ExpenseFilter from "./components/ExpenseTracker/ExpenseFilter";
 import useCategory from "./components/hooks/useCategory";
 import useExpense from "./components/hooks/useExpense";
+import ExpenseForm from "./components/ExpenseTracker/ExpenseForm";
 
 function App() {
   const [dark, setDark] = useState(false);
@@ -20,7 +21,8 @@ function App() {
         <NavBar isDark={dark} handleDark={() => setDark(!dark)} />
       </header>
 
-      <main className="px-6 py-8">
+      <main className="px-6 pb-8">
+        <ExpenseForm isDark={dark} />
         <ExpenseFilter isDark={dark} category={category ? category : []} />
         <ExpenseList isDark={dark} expenses={expenses ? expenses : []} />
       </main>

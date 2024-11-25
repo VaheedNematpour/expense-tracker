@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import Category, Expense
-from .serializers import CategorySerializer, ExpenseSerializer
+from .serializers import CategorySerializer, CreateExpenseSerializer, ExpenseSerializer
 
 @api_view(['GET', 'POST'])
 def category_list(request):
@@ -42,7 +42,7 @@ def expense_list(request):
 
         return Response(serializer.data)
     elif request.method == 'POST':
-        serializer = ExpenseSerializer(data=request.data)
+        serializer = CreateExpenseSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
 

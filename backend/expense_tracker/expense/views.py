@@ -34,12 +34,19 @@ def category_detail(request, id):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-@api_view()
+@api_view(['GET', 'POST'])
 def expense_list(request):
-    expenses = Expense.objects.all()
-    serializer = ExpenseSerializer(expenses, many=True)
+    if request.method == 'GET':
+        expenses = Expense.objects.all()
+        serializer = ExpenseSerializer(expenses, many=True)
 
-    return Response(serializer.data)
+        return Response(serializer.data)
+    elif request.method == 'POST':
+        serializer = ExpenseSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 @api_view()

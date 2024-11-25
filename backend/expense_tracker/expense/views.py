@@ -15,6 +15,7 @@ def category_list(request):
     elif request.method == 'POST':
         serializer = CategorySerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        serializer.save()
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -27,6 +28,8 @@ def category_detail(request, id):
 
         return Response(serializer.data)
     elif request.method == 'DELETE':
+        if category.expense_set.count() > 0:
+            return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
         category.delete()
         return Response(status=status.HTTP_404_NOT_FOUND)
 

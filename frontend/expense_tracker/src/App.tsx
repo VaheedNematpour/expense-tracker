@@ -8,7 +8,7 @@ import useExpense from "./components/hooks/useExpense";
 function App() {
   const [dark, setDark] = useState(false);
 
-  const { data } = useCategory();
+  const { data: category } = useCategory();
   const { data: expenses, error } = useExpense();
 
   if (error)
@@ -21,7 +21,7 @@ function App() {
       </header>
 
       <main className="px-6 py-8">
-        <ExpenseFilter isDark={dark} category={data ? data : []} />
+        <ExpenseFilter isDark={dark} category={category ? category : []} />
         <ExpenseList isDark={dark} expenses={expenses ? expenses : []} />
       </main>
     </div>
